@@ -1,0 +1,59 @@
+CXX       = gcc
+CXXFLAGS  = -Wall -Wextra -Werror -pedantic -std=c11 -fmessage-length=0
+CPPFLAGS  = -I../common -I../app
+LD_FLAGS  =
+LD_LIBS   =
+EXCLUDE   =
+SOURCES   = $(filter-out $(EXCLUDE),$(wildcard *.c))                          \
+            $(filter-out $(EXCLUDE),$(wildcard ../common/*.c))                \
+            $(filter-out $(EXCLUDE),$(wildcard ../communication/*.c))         \
+            $(filter-out $(EXCLUDE),$(wildcard ../logger/*.c))                \
+            $(filter-out $(EXCLUDE),$(wildcard ../data/*.c))                  \
+            $(filter-out $(EXCLUDE),$(wildcard ../app/*.c))                   \
+            $(filter-out $(EXCLUDE),$(wildcard ../iomanager/*.c))
+
+OBJECTS   = $(patsubst %.c,%.o,$(SOURCES))
+
+TARGET    = week1.bin
+
+# unittest
+TEST_CXXFLAGS  =
+TEST_LD_FLAGS  =
+TEST_LD_LIBS   =
+TEST_EXCLUDE   =
+TEST_SOURCES   =
+TEST_OBJECTS   =
+TEST_TARGET    = nxt_test.bin
+
+#
+
+## Default build configuration: debug
+BUILD_MODE ?= debug
+ifeq ($(BUILD_MODE),debug)
+    CXXFLAGS += -g -O0 -DDEBUG
+else
+    CXXFLAGS += -O2 -DNDEBUG
+endif
+
+.PHONY: all
+all: ../$(TARGET)
+
+#a.o: Constants.h
+#b.o: Constants.h
+
+../$(TARGET): $(OBJECTS)
+	$(CXX) $^ $(LD_FLAGS) $(LD_LIBS) -o $@
+
+HEADERS = $(wildcard ../common/*.h) $(wildcard ../app/*.h)
+
+%.o: %.c $(HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(TEST_CXXFLAGS) -c $< -o $@
+
+.PHONY: clean
+clean:
+	@$(RM) ../$(TARGET) $(OBJECTS) core
+	@$(RM) $(TEST_TARGET) $(TEST_OBJECTS)
+
+.PHONY: unittest
+unittest:
+	@echo "Bu hafta icin test kodu eklenmedi."

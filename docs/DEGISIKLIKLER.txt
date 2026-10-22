@@ -1,0 +1,9 @@
+Kendi do-while/switch menun ve task1-task4 fonksiyonlarin korundu.
+Tekrarlanan main.h/common_types.h yerine her modulin kendi header'i var.
+Toplama sonucu negatif gorunmesin diye sonuc tipi duzeltildi.
+Sicaklik dar tipe cevrilmeden kontrol ediliyor.
+N girisi ve toplam tasmaya karsi kontrol ediliyor; N=100000 toplami uint32_t'ye sigmaz.
+Asal kontrolde i*i yerine i<=n/i kullaniliyor.
+Uzun giris satirinin kalani temizleniyor; girdi bitince program cikiyor.
+Eclipse Console'da istemler gorunsun diye fflush(stdout) eklendi.
+Yeni test sistemi veya CMake eklenmedi. Derleme/calistirma yapilmadi.

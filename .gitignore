@@ -7,3 +7,11 @@ Release/
 .settings/
 .project
 .cproject
+*.bin
+*.d
+build/
+__pycache__/
+# Bos Eclipse ayar klasorunu koru; bilgisayara ozel ayarlari ekleme.
+!**/.settings/
+**/.settings/*
+!**/.settings/.gitkeep

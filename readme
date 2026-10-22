@@ -1,0 +1,21 @@
+Burası C alanındaki ilerlemelerimi gösteren çalışmalarımı içeriyor.
+
+### 1.Hafta ###
+- Menünlü bir program hazırladım. 
+	1.Ikı sayıyı topluyor.
+	2.Sıcaklığı sınıflandırıyor.
+	3.1'den N'e toplam hesaplıyor.
+	4.Bir sayının tek mi çift mi ve asal mı değil mi olduğunu kontrol ediyor.
+
+- Kodlar endpoints/week1 klasöründe bulunuyor.
+
+--- Derlemek için: ----
+cd endpoints/week1/local
+make -f makefile.x86_64
+------------------------
+
+--- Çalıştırmak için: ---
+../week1.bin
+-------------------------
+
+### 2.Hafta ###

@@ -1,0 +1,3 @@
+* Cmake nedir?
+* Projeni Cmake projesi haline getir.
+* Cmake mi ? Makefile mi ? 

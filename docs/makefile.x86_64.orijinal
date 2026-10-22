@@ -1,0 +1,60 @@
+CXX       = g++
+CXXFLAGS  = -Wall -Wextra -Werror -pedantic -std=c++11 -pthread -fmessage-length=0 \
+            `pkg-config --cflags libconfig++`
+CPPFLAGS  =
+LD_FLAGS  = -pthread -levdev \
+            `pkg-config --libs-only-L libconfig++` 
+LD_LIBS   = `pkg-config --libs-only-l libconfig++`
+EXCLUDE   =
+SOURCES   = $(filter-out $(EXCLUDE),$(wildcard *.cpp))                          \
+            $(filter-out $(EXCLUDE),$(wildcard ../common/*.cpp))                \
+            $(filter-out $(EXCLUDE),$(wildcard ../communication/*.cpp))         \
+            $(filter-out $(EXCLUDE),$(wildcard ../logger/*.cpp))                \
+            $(filter-out $(EXCLUDE),$(wildcard ../data/*.cpp))                  \
+            $(filter-out $(EXCLUDE),$(wildcard ../app/*.cpp))                   \
+            $(filter-out $(EXCLUDE),$(wildcard ../iomanager/*.cpp))
+
+OBJECTS   = $(patsubst %.cpp,%.o,$(SOURCES))
+
+TARGET    = nxt_local.bin
+
+# unittest
+TEST_CXXFLAGS  =
+TEST_LD_FLAGS  =
+TEST_LD_LIBS   =
+TEST_EXCLUDE   =
+TEST_SOURCES   =
+TEST_OBJECTS   =
+TEST_TARGET    = nxt_test.bin
+
+#
+
+## Default build configuration: debug
+ifeq ($(BUILD_MODE),debug)
+    CXXFLAGS += -g -O0 -DDEBUG
+else
+    CXXFLAGS += -O2 -DNDEBUG
+endif
+
+.PHONY: all
+all: $(TARGET)
+
+#a.o: Constants.h
+#b.o: Constants.h
+
+$(TARGET): $(OBJECTS)
+	$(CXX) $^ $(LD_FLAGS) $(LD_LIBS) -o ../$@
+
+%.o: %.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(TEST_CXXFLAGS) -c $< -o $@
+
+.PHONY: clean
+clean:
+	@$(RM) ../$(TARGET) $(OBJECTS) core
+	@$(RM) $(TEST_TARGET) $(TEST_OBJECTS)
+
+.PHONY: unittest
+unittest: $(TEST_TARGET)
+
+$(TEST_TARGET): $(TEST_OBJECTS)
+	$(CXX) $^ $(LD_FLAGS) $(TEST_LD_FLAGS) $(LD_LIBS) $(TEST_LD_LIBS) -o $@
